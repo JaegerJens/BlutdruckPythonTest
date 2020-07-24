@@ -132,8 +132,9 @@ class blutdruck_tk(tk.Tk):
 
     def db(self):
         try:
+            # in init
             conn = sqlite3.connect('Blutdruck.db')
-            sql_query = '''CREATE TABLE Blutdruck (\
+            sql_query = '''CREATE TABLE IF NOT EXISTS Blutdruck (\
                      Id INT PRIMARY KEY NOT NULL, \
                      dia INT, \
                      sys INT, \
@@ -146,9 +147,10 @@ class blutdruck_tk(tk.Tk):
             print("SQL Tabelle erstellt")
             cursor.close()
             
+            # hier nur zum Schreiben
             cursor = conn.cursor()
-            sql_query = '''INSERT INTO Blutdruck (id, dia, sys, puls, datum) \
-                        VALUES (?, 125, 80, 55, ?)'''
+            sql_query = '''INSERT INTO Blutdruck (dia, sys, puls, datum) \
+                        VALUES (125, 80, 55, ?)'''
             cursor.execute(sql_query)
             conn.commit()
             print(u"Daten ergänzt")
